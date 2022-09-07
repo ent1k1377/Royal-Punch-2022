@@ -8,8 +8,13 @@ namespace Resources.Scripts.Boss
     public class Boss : MonoBehaviour
     {
         [SerializeField] private Player.Player _player;
+        
         [Header("Fist Attack")]
         [SerializeField] private float _fistAttackDistance;
+        
+        [Header("AOE Attack")]
+        [SerializeField] private SpriteRenderer _redCircle;
+        [SerializeField] private ParticleSystem _stripesEffect;
         
         private Animator _animator;
         private StateMachine _stateMachine;
@@ -18,7 +23,6 @@ namespace Resources.Scripts.Boss
         private State _fistAttack;
         private State _directedAttack;
         private State _aoeAttack;
-
         private State[] _superAttacks;
 
         private bool _isArmsLength => GetDistanceToPlayer() <= _fistAttackDistance;
@@ -30,7 +34,7 @@ namespace Resources.Scripts.Boss
             _idle = new IdleState(_animator);
             _fistAttack = new FistAttackState(_animator);
             _directedAttack = new DirectedAttackState();
-            _aoeAttack = new AoeStateState();
+            _aoeAttack = new AoeAttackState(_animator, _redCircle, _stripesEffect);
             _superAttacks = new[] {_directedAttack, _aoeAttack};
         }
         
