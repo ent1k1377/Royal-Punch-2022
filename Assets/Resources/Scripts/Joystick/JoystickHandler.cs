@@ -14,6 +14,8 @@ namespace Resources.Scripts.Joystick
 
         protected Vector2 InputVector;
 
+        public abstract Vector3 GetDirection();
+        
         public void OnDrag(PointerEventData eventData)
         {
             if (RectTransformUtility.ScreenPointToLocalPointInRectangle(_joystickBackground.rectTransform, 
