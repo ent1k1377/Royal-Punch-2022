@@ -2,15 +2,15 @@
 
 namespace Resources.Scripts.Boss
 {
-    public class BossRotator : MonoBehaviour
+    public class Rotator : MonoBehaviour
     {
-        [SerializeField] private Player.Player _target;
+        [SerializeField] private GameObject _target;
         [SerializeField] private float _speed;
 
         private void Rotate()
         {
             var direction = _target.transform.position - transform.position;
-            var newRotation = Quaternion.LookRotation(direction);
+            var newRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
             transform.rotation = Quaternion.Lerp(transform.rotation, newRotation, _speed * Time.deltaTime);
         }
 

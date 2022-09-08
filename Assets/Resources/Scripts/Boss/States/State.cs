@@ -16,7 +16,7 @@ namespace Resources.Scripts.Boss.States
         public abstract void Enter();
         public abstract void Exit();
 
-        public virtual void AnimationEvent(int index)
+        public virtual void AnimationEventHandler(int index)
         {
         }
     }

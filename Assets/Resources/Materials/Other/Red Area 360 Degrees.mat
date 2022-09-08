@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Circle
+  m_Name: Red Area 360 Degrees
   m_Shader: {fileID: 4800000, guid: 65c25e6bde0408547a16aaaa26dcdd09, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
