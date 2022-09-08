@@ -6,18 +6,19 @@ namespace Resources.Scripts.Boss.States
     {
         private readonly int _idleHash = Animator.StringToHash("Armature_Idle2");
         
-        public IdleState(Animator animator) : base(animator)
+        public IdleState(Animator animator, IStationStateSwitcher stateSwitcher) : base(animator, stateSwitcher)
         {
         }
 
         public override void Enter()
         {
-            _animator.CrossFade(_idleHash, 0);
+            Debug.Log("Вошел в состояние Idle");
+            _animator.CrossFade(_idleHash, 0.1f);
         }
 
         public override void Exit()
         {
-            
+            Debug.Log("Вышел из состояния Idle");
         }
     }
 }
