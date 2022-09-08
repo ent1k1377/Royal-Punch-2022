@@ -1,5 +1,6 @@
 ﻿using Resources.Scripts.Boss.States;
 using UnityEngine;
+using UnityEngine.Events;
 using Random = System.Random;
 
 namespace Resources.Scripts.Boss
@@ -25,6 +26,8 @@ namespace Resources.Scripts.Boss
         private State _aoeAttack;
         private State[] _superAttacks;
 
+        public event UnityAction<State> StateEnded;
+
         private bool _isArmsLength => GetDistanceToPlayer() <= _fistAttackDistance;
 
         private float GetDistanceToPlayer() => Vector3.Distance(transform.position, _player.transform.position);
@@ -33,8 +36,8 @@ namespace Resources.Scripts.Boss
         {
             _idle = new IdleState(_animator);
             _fistAttack = new FistAttackState(_animator);
-            _directedAttack = new DirectedAttackState();
-            _aoeAttack = new AoeAttackState(_animator, _redCircle, _stripesEffect);
+            _directedAttack = new DirectedAttackState(_animator);
+            _aoeAttack = new AoeAttackState(_animator,this, _redCircle, _stripesEffect);
             _superAttacks = new[] {_directedAttack, _aoeAttack};
         }
         
@@ -64,6 +67,11 @@ namespace Resources.Scripts.Boss
             var random = new Random();
             var randomIndex = random.Next(0, _superAttacks.Length);
             return _superAttacks[randomIndex];
+        }
+
+        public void CompleteSuperAttack()
+        {
+            _stateMachine.ChangeState();
         }
     }
 }

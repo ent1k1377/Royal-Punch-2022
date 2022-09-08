@@ -5,9 +5,9 @@ namespace Resources.Scripts.Boss.States
     public class FistAttackState : State
     {
         private readonly int _bossPunchHash = Animator.StringToHash("Armature_BossPunch");
-        public FistAttackState(Animator animator)
+        
+        public FistAttackState(Animator animator) : base(animator)
         {
-            _animator = animator;
         }
 
         public override void Enter()

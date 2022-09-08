@@ -2,9 +2,9 @@
 
 namespace Resources.Scripts.Boss.States
 {
-    public class DirectedAttackState : State
+    public class RestState : State
     {
-        public DirectedAttackState(Animator animator) : base(animator)
+        public RestState(Animator animator) : base(animator)
         {
         }
 
