@@ -27,6 +27,10 @@ namespace Resources.Scripts.Boss.States
         [SerializeField, Range(1, 180)] private int _degreeAttackZone;
         [SerializeField] private Rotator _bossRotator;
         
+        [Header("Player Pull")]
+        [SerializeField] private Transform _positionStripesEffectPlayerPull;
+        [SerializeField] private ParticleSystem _arrowsEffect;
+
         [Header("General Settings")]
         [SerializeField] private Player.Player _player;
         [SerializeField] private Vector2 _timeRangeBetweenStates;
@@ -39,16 +43,16 @@ namespace Resources.Scripts.Boss.States
 
         private State _startState;
         private State _currentState;
-        private List<State> _allStates;
+        private List<State> _allActiveStates;
         private List<State> _superAttacks;
-
-        private bool _isArmsLength => GetDistanceToPlayer() <= _fistAttackDistance;
-
+        
         private float GetDistanceToPlayer() => Vector3.Distance(transform.position, _player.transform.position);
+        
+        public bool IsArmsLength => GetDistanceToPlayer() <= _fistAttackDistance;
         
         private void StatesInitialize()
         {
-            _allStates = new List<State>
+            _allActiveStates = new List<State>
             {
                 new IdleState(_animator, this),
                 new TiredState(_animator, this),
@@ -58,9 +62,12 @@ namespace Resources.Scripts.Boss.States
                     _degreeAttackZone, _bossRotator),
                 new AoeAttackState(_animator,this, _aoeAttackZone, _smokeExplosionEffectAoeAttack, 
                     _stripesEffect, _positionStripesEffectAoeAttack),
+                new PlayerPullState(_animator, this, _arrowsEffect,_stripesEffect, 
+                    _positionStripesEffectPlayerPull, this, _player),
+                new SuperPunchState(_animator, this)
             };
-            _superAttacks = new List<State> {_allStates[3]};
-            _currentState = _allStates.FirstOrDefault(s => s is IdleState);
+            _superAttacks = new List<State> {_allActiveStates[5]};
+            _currentState = _allActiveStates.FirstOrDefault(s => s is IdleState);
             _currentState.Enter();
         }
         
@@ -81,11 +88,11 @@ namespace Resources.Scripts.Boss.States
                 return;
             _currentTimeBetweenStates += Time.deltaTime;
             
-            if (_isArmsLength && _currentState is IdleState)
+            if (IsArmsLength && _currentState is IdleState)
                 SwitchState<FistAttackState>();
-            else if (_currentTimeBetweenStates < _timeBetweenStates && _isArmsLength)
+            else if (_currentTimeBetweenStates < _timeBetweenStates && IsArmsLength)
                 SwitchState<IdleState>();
-            else if (_currentTimeBetweenStates >= _timeBetweenStates && !_isArmsLength)
+            else if (_currentTimeBetweenStates >= _timeBetweenStates && !IsArmsLength)
             {
                 RandomChoiceSuperAttacks();
                 _currentTimeBetweenStates = 0;
@@ -102,7 +109,7 @@ namespace Resources.Scripts.Boss.States
 
         public void SwitchState<T>() where T : State
         {
-            var state = _allStates.FirstOrDefault(s => s is T);
+            var state = _allActiveStates.FirstOrDefault(s => s is T);
             if (state is IdleState)
                 _isSuperAttack = false;
             SwitchStatePlug(state);
@@ -115,7 +122,7 @@ namespace Resources.Scripts.Boss.States
             _currentState.Enter();
         }
         
-        private void AnimationEvent(int index)
+        private void AnimationEventHandler(int index)
         {
             _currentState.AnimationEventHandler(index);
         }
