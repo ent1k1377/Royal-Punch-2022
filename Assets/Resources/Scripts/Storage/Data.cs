@@ -5,7 +5,6 @@ namespace Resources.Scripts.Storage
     [Serializable]
     public abstract class Data
     {
-        protected string NameFile;
-        public virtual string GetNameFile() => NameFile;
+        public string NameFile => GetType().Name + ".save";
     }
 }

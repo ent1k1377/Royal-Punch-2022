@@ -13,9 +13,8 @@ namespace Resources.Scripts.Storage
         public int CostStrength;
         public float CostIncreaseMultiplierStrength;
 
-        public BustersData()
+        public BustersData() : base()
         {
-            NameFile = "BusterData.save";
             LevelHealth = 1;
             CostHealth = 50;
             CostIncreaseMultiplierHealth = 1.2f;

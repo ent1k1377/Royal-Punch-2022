@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Resources.Scripts.Boss.States;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace Resources.Scripts.Boss.States
+namespace Resources.Scripts.Boss
 {
     [RequireComponent(typeof(Animator))]
     public class BossStateBehavior : MonoBehaviour, IStationStateSwitcher

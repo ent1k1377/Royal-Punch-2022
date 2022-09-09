@@ -12,7 +12,6 @@ namespace Resources.Scripts.Storage
         
         public PlayerData()
         {
-            NameFile = "PlayerData.save";
             NumberCoins = 200;
             Level = 1;
             Health = 150;
